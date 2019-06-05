@@ -92,14 +92,13 @@ int main(int argc, char **argv)
 
 
 
-        serial.setPortName("COM3");
+        serial.setPortName("COM4");
         serial.setBaudRate(QSerialPort::Baud9600); /*, QSerialPort::Output*/
         serial.setDataBits(QSerialPort::Data8);
         serial.setParity(QSerialPort::NoParity);
         serial.setStopBits(QSerialPort::TwoStop);
         serial.setFlowControl(QSerialPort::NoFlowControl);
         serial.open(QIODevice::ReadWrite);
-
 
 
 
@@ -117,31 +116,41 @@ int main(int argc, char **argv)
         serial.write("!sm\r\n");
         standardOutput << "!SM\r\n" << endl;
         serial.waitForReadyRead();
-        data = serial.readLine();
-        if(data != "\n")
-            standardOutput << data << endl;
-        while(data != "Normal Mode"){
-        data = serial.readLine();
-        }
-          standardOutput << data << endl;
+//        data = serial.readLine();
+//        if(data != "\n")
+//            standardOutput << data << endl;
+//        while(data != "Normal Mode"){
+//        data = serial.readLine();
+//        }
+//          standardOutput << data << endl;
 
 
+while(data.isNull() == TRUE){
+    data = serial.readLine();
+}
+ standardOutput << data << endl;
 
 
         //Set Columns Number
         serial.write("!nc24\r\n");
         standardOutput << "!NC24\r\n" << endl;
         serial.waitForReadyRead();
-        data = serial.readLine();
-        if(data != "\n")
-            standardOutput << data << endl;
-        serial.waitForReadyRead();
+//        data = serial.readLine();
+//        if(data != "\n")
+//            standardOutput << data << endl;
+//        serial.waitForReadyRead();
 
-        while(data != "Number of col 24"){
-        data = serial.readLine();
-        }
-         standardOutput << data << endl;
+//        while(data != "Number of col 24"){
+//        data = serial.readLine();
+//        }
+//         standardOutput << data << endl;
 
+
+
+         while(data.isNull() == TRUE){
+             data = serial.readLine();
+         }
+          standardOutput << data << endl;
 
 
 
@@ -149,29 +158,38 @@ int main(int argc, char **argv)
          serial.write("!nr16\r\n");
          standardOutput << "!NR24\r\n" << endl;
          serial.waitForReadyRead();
-         data = serial.readLine();
-         standardOutput << data << endl;
-         serial.waitForReadyRead();
+//         data = serial.readLine();
+//         standardOutput << data << endl;
+//         serial.waitForReadyRead();
 
-         while(data != "Number of row 16"){
-         data = serial.readLine();
-         }
-           standardOutput << data << endl;
+//         while(data != "Number of row 16"){
+//         data = serial.readLine();
+//         }
+//           standardOutput << data << endl;
 
-
+           while(data.isNull() == TRUE){
+               data = serial.readLine();
+           }
+            standardOutput << data << endl;
 
 
           //Set Delay
           serial.write("!sd10\r\n");
           standardOutput << "!SD10\r\n" << endl;
           serial.waitForReadyRead();
-          data = serial.readLine();
-          serial.waitForReadyRead();
+//          data = serial.readLine();
+//          serial.waitForReadyRead();
 
-          while(data != "Sampling Delay 10"){
+//          while(data != "Sampling Delay 10"){
+//              data = serial.readLine();
+//          }
+//          standardOutput << data << endl;
+
+          while(data.isNull() == TRUE){
               data = serial.readLine();
           }
-          standardOutput << data << endl;
+           standardOutput << data << endl;
+
 
 
 
@@ -179,14 +197,17 @@ int main(int argc, char **argv)
         serial.write("!ss\r\n");
         standardOutput << "!ss\r\n" << endl;
         serial.waitForReadyRead();
-        data = serial.readLine();
-        serial.waitForReadyRead();
+//        data = serial.readLine();
+//        serial.waitForReadyRead();
 
-        while(data != "Sampling Matrix"){
+//        while(data != "Sampling Matrix"){
+//            data = serial.readLine();
+//        }
+//        standardOutput << data << endl;
+        while(data.isNull() == TRUE){
             data = serial.readLine();
         }
-        standardOutput << data << endl;
-
+         standardOutput << data << endl;
 
 
         serial.write("!rm\r\n");
@@ -243,11 +264,11 @@ int main(int argc, char **argv)
     QGroupBox *modelGroupBox = new QGroupBox(QStringLiteral("Model"));
 
     QRadioButton *sqrtSinModelRB = new QRadioButton(widget);
-    sqrtSinModelRB->setText(QStringLiteral("Sqrt && Sin"));
+    sqrtSinModelRB->setText(QStringLiteral("Raw Data"));
     sqrtSinModelRB->setChecked(false);
 
     QRadioButton *heightMapModelRB = new QRadioButton(widget);
-    heightMapModelRB->setText(QStringLiteral("Height Map"));
+    heightMapModelRB->setText(QStringLiteral("Touch Data"));
     heightMapModelRB->setChecked(false);
 
     QVBoxLayout *modelVBox = new QVBoxLayout;
@@ -307,6 +328,26 @@ int main(int argc, char **argv)
     themeList->addItem(QStringLiteral("Ebony"));
     themeList->addItem(QStringLiteral("Isabelle"));
 
+
+
+
+    QGroupBox *Sensitivity = new QGroupBox(QStringLiteral("Sensitivity"));
+
+    QRadioButton *onetimes = new QRadioButton(widget);
+    onetimes->setText(QStringLiteral("1"));
+    onetimes->setChecked(false);
+
+    QRadioButton *tentimes = new QRadioButton(widget);
+    tentimes->setText(QStringLiteral("10"));
+    tentimes->setChecked(false);
+
+    QVBoxLayout *sensitivityVBox = new QVBoxLayout;
+    sensitivityVBox->addWidget(onetimes);
+    sensitivityVBox->addWidget(tentimes);
+    selectionGroupBox->setLayout(sensitivityVBox);
+
+
+
     QGroupBox *colorGroupBox = new QGroupBox(QStringLiteral("Custom gradient"));
 
     QLinearGradient grBtoY(0, 0, 1, 100);
@@ -350,6 +391,7 @@ int main(int argc, char **argv)
     vLayout->addWidget(new QLabel(QStringLiteral("Theme")));
     vLayout->addWidget(themeList);
     vLayout->addWidget(colorGroupBox);
+    vLayout->addWidget(Sensitivity);
 
     widget->show();
 
