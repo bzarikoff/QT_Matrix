@@ -95,7 +95,9 @@ SurfaceGraph::~SurfaceGraph()
 void SurfaceGraph::timerEvent(QTimerEvent *event)
 {
     //qDebug() << "Update  1";
-    fillSqrtSinProxy();
+    if(&SurfaceGraph::enableSqrtSinModel){
+       fillSqrtSinProxy();
+    }
 }
 
 
@@ -118,6 +120,7 @@ void SurfaceGraph::fillSqrtSinProxy()
     int i = 0;
     int k = 0;
     int p = 0;
+    int count;
 
 
 
@@ -132,8 +135,17 @@ void SurfaceGraph::fillSqrtSinProxy()
     serial.write("!rm\r\n");
   //  standardOutput << "!RM\r\n" << endl;
 
-   // serial.waitForReadyRead();
-   // data = serial.readLine();      hereeraaaaaaaaaa
+
+//    serial.waitForReadyRead();
+//    data = serial.readLine();
+//    while(data.isNull()){
+//    data = serial.readLine();
+//    count++;
+//    if(count==10){
+//        count = 0;
+//        serial.write("!rm\r\n");
+//            }
+//    }
 
 //***********************************************************************************************//
 //Begin Reading Matrix
@@ -147,7 +159,7 @@ void SurfaceGraph::fillSqrtSinProxy()
 //Only Process data and increment column pointer if data is valid
 //***********************************************************************************************//
 
-              if(data != "\n"){
+              if(data.isNull() == FALSE){        //data != "\n"){
                      // standardOutput << data << endl;
                       point = data.constData();//pointer to a row of data
                       p = 0;//set pointer index to 0 in order to iterate through columns of row
@@ -492,4 +504,3 @@ void SurfaceGraph::setGreenToRedGradient()
    // fillSqrtSinProxy();
 
 }
-
