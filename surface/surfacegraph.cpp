@@ -49,6 +49,8 @@ const int heightMapGridStepZ = 1;
 const float sampleMin = 0.0f;//-24.0f;//-8.0f;
 const float sampleMax = 24.0f;//8.0f;
 
+float sensitivity = 1;
+
 SurfaceGraph::SurfaceGraph(Q3DSurface *surface)
     : m_graph(surface)
 {
@@ -65,8 +67,9 @@ SurfaceGraph::SurfaceGraph(Q3DSurface *surface)
 //            QTimer*timer = new QTimer(this);
 //            QObject::connect(timer, SIGNAL(timeout()), this, SLOT(fillSqrtSinProxy()));
 //            timer->start(100);
-    fillSqrtSinProxy();
-    timerId = startTimer(100);
+   // fillSqrtSinProxy();
+    //test(int box);
+   // timerId = startTimer(100);
    // setGreenToRedGradient();
 
     //! [2]
@@ -79,6 +82,7 @@ SurfaceGraph::SurfaceGraph(Q3DSurface *surface)
     m_heightMapWidth = heightMapImage.width();
     m_heightMapHeight = heightMapImage.height();
 
+  //   fillSqrtSinProxy();
 //    QTimer*timer = new QTimer(this);
 //    QObject::connect(timer, SIGNAL(timeout()), this, SLOT(fillSqrtSinProxy()));
 //    timer->start(100);
@@ -100,6 +104,192 @@ void SurfaceGraph::timerEvent(QTimerEvent *event)
     }
 }
 
+void SurfaceGraph::smaller(bool enable)
+{
+    if (enable) {
+
+        sensitivity = 0.1;
+
+
+    }
+
+
+
+}
+void SurfaceGraph::same(bool enable)
+{
+    if (enable) {
+
+        sensitivity = 1;
+
+
+
+    }
+
+
+
+}
+void SurfaceGraph::bigger(bool enable)
+{
+    if (enable) {
+
+        sensitivity = 10;
+
+
+    }
+
+
+
+}
+void SurfaceGraph::test(QString box)
+{
+
+       QTextStream standardOutput(stdout);
+       standardOutput << box << endl;
+
+
+
+
+
+
+     //  QTextStream standardOutput(stdout);
+       QByteArray data, data2;
+
+
+       serial.setPortName(box);//COM4
+       serial.setBaudRate(QSerialPort::Baud9600); /*, QSerialPort::Output*/
+       serial.setDataBits(QSerialPort::Data8);
+       serial.setParity(QSerialPort::NoParity);
+       serial.setStopBits(QSerialPort::TwoStop);
+       serial.setFlowControl(QSerialPort::NoFlowControl);
+       serial.open(QIODevice::ReadWrite);
+
+
+
+
+       if(!serial.isOpen()){
+           standardOutput << "this port is not currently open\r\n" << endl;
+       }
+       if(serial.isOpen()){
+           standardOutput << "this port is now opennnnnnnnnnnnnnnnnn\r\n" << endl;
+       }
+
+
+       //Setup Command
+       serial.write("!sm\r\n");
+       standardOutput << "!SM\r\n" << endl;
+       serial.waitForReadyRead();
+
+
+   data = serial.readLine();
+while(data.isNull() == TRUE){
+   data = serial.readLine();
+}
+//if(data[0] == 'N'){
+//     standardOutput << "N is present" << endl;
+//}
+standardOutput << data << endl;
+
+
+       //Set Columns Number
+       serial.write("!nc24\r\n");
+       standardOutput << "!NC24\r\n" << endl;
+       serial.waitForReadyRead();
+//        data = serial.readLine();
+//        if(data != "\n")
+//            standardOutput << data << endl;
+//        serial.waitForReadyRead();
+
+//        while(data != "Number of col 24"){
+//        data = serial.readLine();
+//        }
+//         standardOutput << data <<
+
+
+         //   data = serial.readLine();
+            data = serial.readLine();
+
+        while(data[0] != 'N'){
+          // while(data.isNull() == TRUE ){ // || data[0] == '\n'){
+            serial.waitForReadyRead();
+            data = serial.readLine();
+            // standardOutput << "check" << endl;
+        }
+         standardOutput << data << endl;
+         standardOutput << "above" << endl;
+
+
+
+     //Set Rows Number
+        serial.write("!nr16\r\n");
+        standardOutput << "!NR24\r\n" << endl;
+        serial.waitForReadyRead();
+//         data = serial.readLine();
+//         standardOutput << data << endl;
+//         serial.waitForReadyRead();
+
+//         while(data != "Number of row 16"){
+//         data = serial.readLine();
+//         }
+//           standardOutput << data << endl;
+            data = serial.readLine();
+             while(data[0] != 'N'){
+          //while(data.isNull() == TRUE){
+                 serial.waitForReadyRead();
+              data = serial.readLine();
+          }
+           standardOutput << data << endl;
+
+
+         //Set Delay
+         serial.write("!sd10\r\n");
+         standardOutput << "!SD10\r\n" << endl;
+         serial.waitForReadyRead();
+//          data = serial.readLine();
+//          serial.waitForReadyRead();
+
+//          while(data != "Sampling Delay 10"){
+//              data = serial.readLine();
+//          }
+//          standardOutput << data << endl;
+            data = serial.readLine();
+            while(data[0] != 'S'){
+            serial.waitForReadyRead();
+       //  while(data.isNull() == TRUE){
+             data = serial.readLine();
+         }
+          standardOutput << data << endl;
+
+
+
+
+          //Start Sampling
+       serial.write("!ss\r\n");
+       standardOutput << "!ss\r\n" << endl;
+       serial.waitForReadyRead();
+//        data = serial.readLine();
+//        serial.waitForReadyRead();
+
+//        while(data != "Sampling Matrix"){
+//            data = serial.readLine();
+//        }
+//        standardOutput << data << endl;
+       data = serial.readLine();
+         while(data[0] != 'S'){
+   //    while(data.isNull() == TRUE){
+             serial.waitForReadyRead();
+           data = serial.readLine();
+       }
+        standardOutput << data << endl;
+
+
+       timerId = startTimer(100);
+
+
+
+
+
+}
 
 /*//void SurfaceGraph::Timer()
 {
@@ -128,6 +318,7 @@ void SurfaceGraph::fillSqrtSinProxy()
     QTextStream standardOutput(stdout);
     QByteArray data;
     const char * point;
+    char data2[200];
 
 
 
@@ -146,21 +337,30 @@ void SurfaceGraph::fillSqrtSinProxy()
 //        serial.write("!rm\r\n");
 //            }
 //    }
-
+ //serial.waitForReadyRead();
 //***********************************************************************************************//
 //Begin Reading Matrix
 //***********************************************************************************************//
-
+  //standardOutput << "matrix" << endl;
   while(j<16){
-      serial.waitForReadyRead();
+
+   //  standardOutput << "before1" << endl;
+     serial.waitForReadyRead(10);
+     //while(data.isNull() == TRUE){
+   //  standardOutput << "before2" << endl;
       data = serial.readLine();
+   //   standardOutput << "after" << endl;
+      //serial.readLine(data2, 200);
+   //  }
 
 //***********************************************************************************************//
 //Only Process data and increment column pointer if data is valid
 //***********************************************************************************************//
 
-              if(data.isNull() == FALSE){        //data != "\n"){
-                     // standardOutput << data << endl;
+              if(data[0] == '0' || data[0] == '1' || data[0] == '2' || data[0] == '3' || data[0] == '4' || data[0] == '5' || data[0] == '6' || data[0] == '7' || data[0] == '8' || data[0] == '9'){
+              //if(data.isNull() == FALSE){        //data != "\n"){
+                   //   standardOutput << data << endl;
+                      //standardOutput << data2 << endl;
                       point = data.constData();//pointer to a row of data
                       p = 0;//set pointer index to 0 in order to iterate through columns of row
                       k = 0;//for iterating through columns of integer array
@@ -168,72 +368,114 @@ void SurfaceGraph::fillSqrtSinProxy()
                       QSurfaceDataRow *newRow = new QSurfaceDataRow(sampleCountX);
                       float z = j;
                       int index = 0;
-                    // standardOutput << point << endl;
+                 //    standardOutput << point << endl;
 
 //***********************************************************************************************//
 //point is a const char pointer to a row of matrix data - increment through and
 //convert to a form to be graphed
 //***********************************************************************************************//
 
-                          while(point[p]){
+                      while(point[p]){
 
 //                              if(point[p+2] == NULL){
 //                                  standardOutput << k << endl;
 //                                  standardOutput << j << endl;
 //                              }
-                             //  standardOutput << point[p] << endl;
+                         //  standardOutput << point[p] << endl;
 
 
-                                      if(point[p] == ','){
-                                          p++;
-                                      }// if element is a comma move on
+                                  if(point[p] == ','){
+                                      p++;
+                                  }// if element is a comma move on
 
-                                      else if(point[p] == NULL){
-
-                                      } // if is NULL do nothing - should never get here as while checks for this
-
-
-                                      else{ //if there is a point to graph
+                                  else if(point[p] == NULL){
+                                      break;
+                                  } // if is NULL do nothing - should never get here as while checks for this
 
 
-                                       if(point[p+1] != ',' && point[p] != ',' && point[p+1] != NULL){
-                                          if(k<24){
-                                          //integertest[j][k] = (point[p]*10 + point[p+1]) - '0';
-                                        std::stringstream strValue;
-                                        strValue << point[p];
-                                        strValue >> integertest[j][k];
-                                        integertest[j][k] = integertest[j][k]*10 + (point[p+1] - '0');
-                                      //   standardOutput << integertest[j][k] << endl;
-                                        float x = k;
-                                        float y = integertest[j][k];
-                                      //  standardOutput << integertest[j][k] << endl;
+                                  else{ //if there is a point to graph
+
+
+
+                                      //Force is three digits
+                                         if(point[p+2] != ',' && point[p] != ',' && point[p+1] != ',' && point[p+2] != NULL && point[p+1] != NULL){
+                                            if(k<24){
+                                            //integertest[j][k] = (point[p]*10 + point[p+1]) - '0';
+                                          std::stringstream strValue;
+                                          int hundred;
+                                          strValue << point[p];
+                                          strValue >> integertest[j][k];
+                                          strValue << point[p+1];
+                                          strValue >> hundred;
+                                          integertest[j][k] = integertest[j][k]*100 + hundred*10+(point[p+2] - '0');
+                                        //   standardOutput << integertest[j][k] << endl;
+                                          float x = k;
+                                          float y = integertest[j][k] * sensitivity;
+                                   //       standardOutput << integertest[j][k] << endl;
+      //                                        if(j==0 && k == 0){
+      //                                            y = 50;
+      //                                        }
+      //                                        if(j==15 && k == 23){
+      //                                            y = 52;
+      //                                        }
+                                          (*newRow)[index++].setPosition(QVector3D(x, y, z));
+                                           k++;
+                                            }
+                                    //   k++;
+                                       p=p+3;
+                                        }//if element is greater than 99 will occupy three indexes of char array - must store both these elements in
+                                         //one index of the integer array
+
+
+
+
+
+
+
+
+
+
+
+                                //Force is two digits
+                                   else if(point[p+1] != ',' && point[p] != ',' && point[p+1] != NULL){
+                                      if(k<24){
+                                      //integertest[j][k] = (point[p]*10 + point[p+1]) - '0';
+                                    std::stringstream strValue;
+                                    strValue << point[p];
+                                    strValue >> integertest[j][k];
+                                    integertest[j][k] = integertest[j][k]*10 + (point[p+1] - '0');
+                                  //   standardOutput << integertest[j][k] << endl;
+                                    float x = k;
+                                    float y = integertest[j][k] * sensitivity;
+                             //       standardOutput << integertest[j][k] << endl;
 //                                        if(j==0 && k == 0){
 //                                            y = 50;
 //                                        }
 //                                        if(j==15 && k == 23){
 //                                            y = 52;
 //                                        }
-                                        (*newRow)[index++].setPosition(QVector3D(x, y, z));
-                                         k++;
-                                          }
-                                  //   k++;
-                                     p=p+2;
-                                      }//if element is greater than 9 will occupy two indexes of char array - must store both these elements in
-                                       //one index of the integer array
+                                    (*newRow)[index++].setPosition(QVector3D(x, y, z));
+                                     k++;
+                                      }
+                              //   k++;
+                                 p=p+2;
+                                  }//if element is greater than 9 will occupy two indexes of char array - must store both these elements in
+                                   //one index of the integer array
 
 
-                                      else{
+                                  else{
 
-                                                    if(k<24){
-                                                  integertest[j][k] =  point[p] - '0';
-                        //                          std::stringstream strValue;
+                                        //Force is one digits
+                                                if(k<24){
+                                              integertest[j][k] =  point[p] - '0';
+                    //                          std::stringstream strValue;
                         //                          strValue << point[p];
                         //                          strValue >> integertest[j][k];
                         //                          integertest[j][k] = integertest[j][k]*10;
                                                   //standardOutput << integertest[j][k] << endl;
                                                   float x = k;
-                                                  float y =  integertest[j][k];
-                                               //   standardOutput << integertest[j][k] << endl;
+                                                  float y =  integertest[j][k] * sensitivity;
+                                         //         standardOutput << integertest[j][k] << endl;
 
 //                                                  if(k==23 || k ==0){
 //                                                      y = 24;
@@ -264,6 +506,7 @@ void SurfaceGraph::fillSqrtSinProxy()
 
                       j++;// data was valid so get to next row of matrix
                       *dataArray << newRow;
+                  //     standardOutput << "row" << endl;
               }
 
 
@@ -504,3 +747,4 @@ void SurfaceGraph::setGreenToRedGradient()
    // fillSqrtSinProxy();
 
 }
+
