@@ -60,6 +60,11 @@
 #include <stdio.h>
 #include <QTimer>
 
+#include <QSerialPortInfo>
+#include <QComboBox>
+#include <QWindow>
+////#include <QApplication>
+
 
 
 //int integertest[16][24];
@@ -75,152 +80,144 @@ int main(int argc, char **argv)
 
 
 
-//QApplication app(argc, argv);
-
-//app.exec();
-
-
-    //    QCoreApplication coreApplication(argc, argv);
-     //   QSerialPort serial;
+// //////////////////////////////////////////////////////////////////////////////////////////
+//              START OF SETUP
+// //////////////////////////////////////////////////////////////////////////////////////////
 
         QTextStream standardOutput(stdout);
-        QByteArray data;
-
-     //   QApplication app(argc, argv);
-  //      Q3DSurface *graph = new Q3DSurface();
-   //     QWidget *container = QWidget::createWindowContainer(graph);
+//        QByteArray data, data2;
 
 
-
-        serial.setPortName("COM4");
-        serial.setBaudRate(QSerialPort::Baud9600); /*, QSerialPort::Output*/
-        serial.setDataBits(QSerialPort::Data8);
-        serial.setParity(QSerialPort::NoParity);
-        serial.setStopBits(QSerialPort::TwoStop);
-        serial.setFlowControl(QSerialPort::NoFlowControl);
-        serial.open(QIODevice::ReadWrite);
+//        serial.setPortName("COM4");
+//        serial.setBaudRate(QSerialPort::Baud9600); /*, QSerialPort::Output*/
+//        serial.setDataBits(QSerialPort::Data8);
+//        serial.setParity(QSerialPort::NoParity);
+//        serial.setStopBits(QSerialPort::TwoStop);
+//        serial.setFlowControl(QSerialPort::NoFlowControl);
+//        serial.open(QIODevice::ReadWrite);
 
 
 
 
-        if(!serial.isOpen()){
-            standardOutput << "this port is not currently open\r\n" << endl;
-        }
-        if(serial.isOpen()){
-            standardOutput << "this port is now opennnnnnnnnnnnnnnnnn\r\n" << endl;
-        }
-
-
-
-        //Setup Command
-        serial.write("!sm\r\n");
-        standardOutput << "!SM\r\n" << endl;
-        serial.waitForReadyRead();
-//        data = serial.readLine();
-//        if(data != "\n")
-//            standardOutput << data << endl;
-//        while(data != "Normal Mode"){
-//        data = serial.readLine();
+//        if(!serial.isOpen()){
+//            standardOutput << "this port is not currently open\r\n" << endl;
 //        }
-//          standardOutput << data << endl;
+//        if(serial.isOpen()){
+//            standardOutput << "this port is now opennnnnnnnnnnnnnnnnn\r\n" << endl;
+//        }
 
 
-while(data.isNull() == TRUE){
-    data = serial.readLine();
-}
- standardOutput << data << endl;
-
-
-        //Set Columns Number
-        serial.write("!nc24\r\n");
-        standardOutput << "!NC24\r\n" << endl;
-        serial.waitForReadyRead();
-//        data = serial.readLine();
-//        if(data != "\n")
-//            standardOutput << data << endl;
+//        //Setup Command
+//        serial.write("!sm\r\n");
+//        standardOutput << "!SM\r\n" << endl;
 //        serial.waitForReadyRead();
 
-//        while(data != "Number of col 24"){
-//        data = serial.readLine();
-//        }
-//         standardOutput << data << endl;
+
+//    data = serial.readLine();
+//while(data.isNull() == TRUE){
+//    data = serial.readLine();
+//}
+////if(data[0] == 'N'){
+////     standardOutput << "N is present" << endl;
+////}
+// standardOutput << data << endl;
 
 
+//        //Set Columns Number
+//        serial.write("!nc24\r\n");
+//        standardOutput << "!NC24\r\n" << endl;
+//        serial.waitForReadyRead();
+////        data = serial.readLine();
+////        if(data != "\n")
+////            standardOutput << data << endl;
+////        serial.waitForReadyRead();
 
-         while(data.isNull() == TRUE){
-             data = serial.readLine();
-         }
-          standardOutput << data << endl;
+////        while(data != "Number of col 24"){
+////        data = serial.readLine();
+////        }
+////         standardOutput << data <<
 
 
+//          //   data = serial.readLine();
+//             data = serial.readLine();
 
-      //Set Rows Number
-         serial.write("!nr16\r\n");
-         standardOutput << "!NR24\r\n" << endl;
-         serial.waitForReadyRead();
-//         data = serial.readLine();
-//         standardOutput << data << endl;
-//         serial.waitForReadyRead();
-
-//         while(data != "Number of row 16"){
-//         data = serial.readLine();
+//         while(data[0] != 'N'){
+//           // while(data.isNull() == TRUE ){ // || data[0] == '\n'){
+//             serial.waitForReadyRead();
+//             data = serial.readLine();
+//             // standardOutput << "check" << endl;
 //         }
-//           standardOutput << data << endl;
-
-           while(data.isNull() == TRUE){
-               data = serial.readLine();
-           }
-            standardOutput << data << endl;
+//          standardOutput << data << endl;
+//          standardOutput << "above" << endl;
 
 
-          //Set Delay
-          serial.write("!sd10\r\n");
-          standardOutput << "!SD10\r\n" << endl;
-          serial.waitForReadyRead();
-//          data = serial.readLine();
+
+//      //Set Rows Number
+//         serial.write("!nr16\r\n");
+//         standardOutput << "!NR24\r\n" << endl;
+//         serial.waitForReadyRead();
+////         data = serial.readLine();
+////         standardOutput << data << endl;
+////         serial.waitForReadyRead();
+
+////         while(data != "Number of row 16"){
+////         data = serial.readLine();
+////         }
+////           standardOutput << data << endl;
+//             data = serial.readLine();
+//              while(data[0] != 'N'){
+//           //while(data.isNull() == TRUE){
+//                  serial.waitForReadyRead();
+//               data = serial.readLine();
+//           }
+//            standardOutput << data << endl;
+
+
+//          //Set Delay
+//          serial.write("!sd10\r\n");
+//          standardOutput << "!SD10\r\n" << endl;
 //          serial.waitForReadyRead();
+////          data = serial.readLine();
+////          serial.waitForReadyRead();
 
-//          while(data != "Sampling Delay 10"){
+////          while(data != "Sampling Delay 10"){
+////              data = serial.readLine();
+////          }
+////          standardOutput << data << endl;
+//             data = serial.readLine();
+//             while(data[0] != 'S'){
+//             serial.waitForReadyRead();
+//        //  while(data.isNull() == TRUE){
 //              data = serial.readLine();
 //          }
-//          standardOutput << data << endl;
-
-          while(data.isNull() == TRUE){
-              data = serial.readLine();
-          }
-           standardOutput << data << endl;
+//           standardOutput << data << endl;
 
 
 
 
-           //Start Sampling
-        serial.write("!ss\r\n");
-        standardOutput << "!ss\r\n" << endl;
-        serial.waitForReadyRead();
-//        data = serial.readLine();
+//           //Start Sampling
+//        serial.write("!ss\r\n");
+//        standardOutput << "!ss\r\n" << endl;
 //        serial.waitForReadyRead();
+////        data = serial.readLine();
+////        serial.waitForReadyRead();
 
-//        while(data != "Sampling Matrix"){
+////        while(data != "Sampling Matrix"){
+////            data = serial.readLine();
+////        }
+////        standardOutput << data << endl;
+//        data = serial.readLine();
+//          while(data[0] != 'S'){
+//    //    while(data.isNull() == TRUE){
+//              serial.waitForReadyRead();
 //            data = serial.readLine();
 //        }
-//        standardOutput << data << endl;
-        while(data.isNull() == TRUE){
-            data = serial.readLine();
-        }
-         standardOutput << data << endl;
+//         standardOutput << data << endl;
 
 
-        serial.write("!rm\r\n");
-        standardOutput << "!RM\r\n" << endl;
-
-
-
-
-
-//app.exec();
-
-
-
+// //////////////////////////////////////////////////////////////////////////////////////////
+//              END OF SETUP
+// //////////////////////////////////////////////////////////////////////////////////////////
 
         QApplication app(argc, argv);
 
@@ -331,20 +328,39 @@ while(data.isNull() == TRUE){
 
 
 
-    QGroupBox *Sensitivity = new QGroupBox(QStringLiteral("Sensitivity"));
+        QGroupBox *Sensitivity = new QGroupBox(QStringLiteral("Sensitivity"));
 
-    QRadioButton *onetimes = new QRadioButton(widget);
-    onetimes->setText(QStringLiteral("1"));
-    onetimes->setChecked(false);
+        QRadioButton *onetimes = new QRadioButton(widget);
+        onetimes->setText(QStringLiteral("1"));
+        onetimes->setChecked(true);
+      // Sensitivity->setLayout(onetimes)
 
-    QRadioButton *tentimes = new QRadioButton(widget);
-    tentimes->setText(QStringLiteral("10"));
-    tentimes->setChecked(false);
+        QRadioButton *tentimes = new QRadioButton(widget);
+        tentimes->setText(QStringLiteral("10"));
+        tentimes->setChecked(false);
 
-    QVBoxLayout *sensitivityVBox = new QVBoxLayout;
-    sensitivityVBox->addWidget(onetimes);
-    sensitivityVBox->addWidget(tentimes);
-    selectionGroupBox->setLayout(sensitivityVBox);
+        QRadioButton *less = new QRadioButton(widget);
+        less->setText(QStringLiteral("0.1"));
+        less->setChecked(false);
+
+        QVBoxLayout *sensitivityVBox = new QVBoxLayout;
+        sensitivityVBox->addWidget(onetimes);
+        sensitivityVBox->addWidget(tentimes);
+        sensitivityVBox->addWidget(less);
+        selectionGroupBox->setLayout(sensitivityVBox);
+
+
+    QGroupBox *com = new QGroupBox(QStringLiteral("Port"));
+
+    QComboBox *box = new QComboBox;
+       Q_FOREACH(QSerialPortInfo port, QSerialPortInfo::availablePorts()) {
+           box->addItem(port.portName());
+       }
+       //box->move(100 - box->width() / 2,100 - box->height() / 2);
+       box->show();
+
+
+ //standardOutput << box->currentText() << endl;
 
 
 
@@ -392,6 +408,12 @@ while(data.isNull() == TRUE){
     vLayout->addWidget(themeList);
     vLayout->addWidget(colorGroupBox);
     vLayout->addWidget(Sensitivity);
+    vLayout->addWidget(onetimes);
+    vLayout->addWidget(tentimes);
+    vLayout->addWidget(less);
+    vLayout->addWidget(com);
+    vLayout->addWidget(box);
+
 
     widget->show();
 
@@ -403,6 +425,20 @@ while(data.isNull() == TRUE){
                      modifier, &SurfaceGraph::enableHeightMapModel);
     QObject::connect(sqrtSinModelRB, &QRadioButton::toggled,
                      modifier, &SurfaceGraph::enableSqrtSinModel);
+
+
+    QObject::connect(less, &QRadioButton::toggled,
+                     modifier, &SurfaceGraph::smaller);
+    QObject::connect(onetimes, &QRadioButton::toggled,
+                     modifier, &SurfaceGraph::same);
+    QObject::connect(tentimes, &QRadioButton::toggled,
+                     modifier, &SurfaceGraph::bigger);
+
+
+//    QObject::connect(box, &QComboBox::currentData,
+//                     modifier, &SurfaceGraph::test);
+    QObject::connect(box, SIGNAL(currentTextChanged(QString)),
+                     modifier, SLOT(test(QString)));
 
 
    // QObject::connect(, ,
@@ -442,6 +478,8 @@ while(data.isNull() == TRUE){
     sqrtSinModelRB->setChecked(true);
     modeItemRB->setChecked(true);
     themeList->setCurrentIndex(2);
+
+    box->setCurrentIndex(0);
 
 
 
@@ -490,3 +528,4 @@ while(data.isNull() == TRUE){
 //    this->moveToThread(thread);
 //    thread->start;
 //}
+
