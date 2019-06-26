@@ -54,6 +54,9 @@ public:
 
     void enableHeightMapModel(bool enable);
     void enableSqrtSinModel(bool enable);
+    void smaller(bool enable);
+    void same(bool enable);
+    void bigger(bool enable);
 
 
     //! [0]
@@ -80,6 +83,7 @@ public:
     void fillSqrtSinProxy();
     void Timer();
 
+
 private:
     int timerId;
 
@@ -90,6 +94,7 @@ protected:
 
 public Q_SLOTS:
     void changeTheme(int theme);
+      void test(QString box);
 
 private:
     Q3DSurface *m_graph;
