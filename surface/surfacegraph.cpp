@@ -147,6 +147,8 @@ void SurfaceGraph::test(QString box)
        QTextStream standardOutput(stdout);
        standardOutput << box << endl;
 
+       int flag;
+
 
 
 
@@ -169,9 +171,11 @@ void SurfaceGraph::test(QString box)
 
        if(!serial.isOpen()){
            standardOutput << "this port is not currently open\r\n" << endl;
+           flag = 0;
        }
        if(serial.isOpen()){
            standardOutput << "this port is now opennnnnnnnnnnnnnnnnn\r\n" << endl;
+           flag = 1;
        }
 
 
@@ -283,8 +287,10 @@ standardOutput << data << endl;
         standardOutput << data << endl;
 
 
-       timerId = startTimer(100);
+        if(flag == 1){
+            timerId = startTimer(100);
 
+        }
 
 
 
@@ -410,6 +416,9 @@ void SurfaceGraph::fillSqrtSinProxy()
                                           integertest[j][k] = integertest[j][k]*100 + hundred*10+(point[p+2] - '0');
                                         //   standardOutput << integertest[j][k] << endl;
                                           float x = k;
+                                          if(integertest[j][k] == 1){
+                                              integertest[j][k] = 0;
+                                          }
                                           float y = integertest[j][k] * sensitivity;
                                    //       standardOutput << integertest[j][k] << endl;
       //                                        if(j==0 && k == 0){
@@ -446,6 +455,9 @@ void SurfaceGraph::fillSqrtSinProxy()
                                     integertest[j][k] = integertest[j][k]*10 + (point[p+1] - '0');
                                   //   standardOutput << integertest[j][k] << endl;
                                     float x = k;
+                                    if(integertest[j][k] == 1){
+                                        integertest[j][k] = 0;
+                                    }
                                     float y = integertest[j][k] * sensitivity;
                              //       standardOutput << integertest[j][k] << endl;
 //                                        if(j==0 && k == 0){
@@ -474,6 +486,9 @@ void SurfaceGraph::fillSqrtSinProxy()
                         //                          integertest[j][k] = integertest[j][k]*10;
                                                   //standardOutput << integertest[j][k] << endl;
                                                   float x = k;
+                                                  if(integertest[j][k] == 1){
+                                                      integertest[j][k] = 0;
+                                                  }
                                                   float y =  integertest[j][k] * sensitivity;
                                          //         standardOutput << integertest[j][k] << endl;
 
