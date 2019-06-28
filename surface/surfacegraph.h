@@ -84,6 +84,7 @@ public:
     void Timer();
 
 
+
 private:
     int timerId;
 
@@ -95,6 +96,8 @@ protected:
 public Q_SLOTS:
     void changeTheme(int theme);
       void test(QString box);
+    //  void begin(QString box);
+       void begin();
 
 private:
     Q3DSurface *m_graph;
