@@ -39,6 +39,9 @@
 #include <stdlib.h>
 #include <sstream>
 
+#include <QSerialPort>
+#include <QSerialPortInfo>
+
 int integertest[16][24];
 QSerialPort serial;
 
@@ -68,7 +71,7 @@ SurfaceGraph::SurfaceGraph(Q3DSurface *surface)
 //            QObject::connect(timer, SIGNAL(timeout()), this, SLOT(fillSqrtSinProxy()));
 //            timer->start(100);
    // fillSqrtSinProxy();
-    //test(int box);
+   // test(box);
    // timerId = startTimer(100);
    // setGreenToRedGradient();
 
@@ -83,6 +86,7 @@ SurfaceGraph::SurfaceGraph(Q3DSurface *surface)
     m_heightMapHeight = heightMapImage.height();
 
   //   fillSqrtSinProxy();
+
 //    QTimer*timer = new QTimer(this);
 //    QObject::connect(timer, SIGNAL(timeout()), this, SLOT(fillSqrtSinProxy()));
 //    timer->start(100);
@@ -141,6 +145,50 @@ void SurfaceGraph::bigger(bool enable)
 
 
 }
+void SurfaceGraph::begin()
+{
+    QTextStream standardOutput(stdout);
+    standardOutput << "test" << endl;
+
+    QString portname;
+    QString port1;
+    int count = 0;
+
+
+  //  QSerialPortInfo objectconst;
+
+    //portname = objectconst.portName();
+
+    Q_FOREACH(QSerialPortInfo objectconst, QSerialPortInfo::availablePorts()) {
+
+        if(count == 0){
+       port1 = objectconst.portName();
+       standardOutput << portname << endl;
+       count = 1;
+        }
+        else{
+            standardOutput << "no" << endl;
+             standardOutput << portname << endl;
+        }
+
+    }
+
+
+//    Q_FOREACH(QSerialPortInfo port, QSerialPortInfo::availablePorts()) {
+//        box->addItem(port.portName());
+//    }
+
+
+
+//    Q_FOREACH(QSerialPortInfo port, QSerialPortInfo::availablePorts()) {
+//        box->addItem(port.portName());
+//    }
+
+    test(port1);
+}
+
+
+
 void SurfaceGraph::test(QString box)
 {
 
@@ -148,6 +196,7 @@ void SurfaceGraph::test(QString box)
        standardOutput << box << endl;
 
        int flag;
+       int enable;
 
 
 
@@ -172,11 +221,16 @@ void SurfaceGraph::test(QString box)
        if(!serial.isOpen()){
            standardOutput << "this port is not currently open\r\n" << endl;
            flag = 0;
+           enable = 0;
+
        }
        if(serial.isOpen()){
            standardOutput << "this port is now opennnnnnnnnnnnnnnnnn\r\n" << endl;
            flag = 1;
+           enable = 1;
        }
+
+        if(enable == 1){
 
 
        //Setup Command
@@ -293,7 +347,7 @@ standardOutput << data << endl;
         }
 
 
-
+}
 
 }
 
