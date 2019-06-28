@@ -360,6 +360,18 @@ int main(int argc, char **argv)
        box->show();
 
 
+
+
+       QPushButton *start = new QPushButton(widget);
+      // start->setIcon(QIcon(pm));
+       start->setText("Start");
+//       Q_FOREACH(QSerialPortInfo port, QSerialPortInfo::availablePorts()) {
+//           start->addItem(port.portName());
+//       }
+
+       start->setIconSize(QSize(24, 24));
+
+
  //standardOutput << box->currentText() << endl;
 
 
@@ -413,6 +425,7 @@ int main(int argc, char **argv)
     vLayout->addWidget(less);
     vLayout->addWidget(com);
     vLayout->addWidget(box);
+    vLayout->addWidget(start);
 
 
     widget->show();
@@ -439,6 +452,17 @@ int main(int argc, char **argv)
 //                     modifier, &SurfaceGraph::test);
     QObject::connect(box, SIGNAL(currentTextChanged(QString)),
                      modifier, SLOT(test(QString)));
+
+
+
+
+
+    QObject::connect(start, &QPushButton::pressed,                    //currentTextChanged(QString)),
+                     modifier, &SurfaceGraph::begin);
+
+//    QObject::connect(box, SIGNAL(currentText(QString)),
+//                     modifier, SLOT(begin(QString)));
+
 
 
    // QObject::connect(, ,
@@ -479,7 +503,7 @@ int main(int argc, char **argv)
     modeItemRB->setChecked(true);
     themeList->setCurrentIndex(2);
 
-    box->setCurrentIndex(0);
+//    box->setCurrentIndex(0);
 
 
 
