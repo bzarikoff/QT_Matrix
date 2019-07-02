@@ -76,14 +76,22 @@ public:
     void setAxisMinSliderZ(QSlider *slider) { m_axisMinSliderZ = slider; }
     void setAxisMaxSliderZ(QSlider *slider) { m_axisMaxSliderZ = slider; }
 
+
+    void setAxisMinSliderY(QSlider *slider) { m_axisMinSliderY = slider; }
+    void setAxisMaxSliderY(QSlider *slider) { m_axisMaxSliderY = slider; }
+
+    void setSense(QSlider *slider) { m_sense = slider; }
+
     void adjustXMin(int min);
     void adjustXMax(int max);
     void adjustZMin(int min);
     void adjustZMax(int max);
     void fillSqrtSinProxy();
     void Timer();
+//    void adjustSensitivity(int value);
 
-
+    void adjustYMin(int min);
+    void adjustYMax(int max);
 
 private:
     int timerId;
@@ -98,6 +106,7 @@ public Q_SLOTS:
       void test(QString box);
     //  void begin(QString box);
        void begin();
+        void stop();
 
 private:
     Q3DSurface *m_graph;
@@ -110,6 +119,15 @@ private:
     QSlider *m_axisMaxSliderX;
     QSlider *m_axisMinSliderZ;
     QSlider *m_axisMaxSliderZ;
+    QSlider *m_axisMinSliderY;
+    QSlider *m_axisMaxSliderY;
+
+    QSlider *m_sense;
+
+
+    float m_rangeMinY;
+    float m_stepY;
+
     float m_rangeMinX;
     float m_rangeMinZ;
     float m_stepX;
@@ -119,6 +137,7 @@ private:
 
     void setAxisXRange(float min, float max);
     void setAxisZRange(float min, float max);
+    void setAxisYRange(float min, float max);
   //  void fillSqrtSinProxy();
 };
 
