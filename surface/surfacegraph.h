@@ -80,7 +80,7 @@ public:
     void setAxisMinSliderY(QSlider *slider) { m_axisMinSliderY = slider; }
     void setAxisMaxSliderY(QSlider *slider) { m_axisMaxSliderY = slider; }
 
-    void setSense(QSlider *slider) { m_sense = slider; }
+ //   void setSense(QSlider *slider) { m_sense = slider; }
 
     void adjustXMin(int min);
     void adjustXMax(int max);
@@ -122,7 +122,7 @@ private:
     QSlider *m_axisMinSliderY;
     QSlider *m_axisMaxSliderY;
 
-    QSlider *m_sense;
+   // QSlider *m_sense;
 
 
     float m_rangeMinY;
