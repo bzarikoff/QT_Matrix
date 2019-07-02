@@ -315,6 +315,29 @@ int main(int argc, char **argv)
     axisMaxSliderZ->setTickInterval(1);
     axisMaxSliderZ->setEnabled(true);
 
+
+    QSlider *axisMinSliderY = new QSlider(Qt::Horizontal, widget);
+    axisMinSliderY->setMinimum(0);
+    axisMinSliderY->setTickInterval(1);
+    axisMinSliderY->setEnabled(true);
+    QSlider *axisMaxSliderY = new QSlider(Qt::Horizontal, widget);
+    axisMaxSliderY->setMinimum(1);
+    axisMaxSliderY->setTickInterval(1);
+    axisMaxSliderY->setEnabled(true);
+
+
+
+
+
+
+    QSlider *SensitivitySlider = new QSlider(Qt::Horizontal, widget);
+    SensitivitySlider->setMinimum(0);
+    SensitivitySlider->setTickInterval(1);
+    SensitivitySlider->setEnabled(true);
+
+
+
+
     QComboBox *themeList = new QComboBox(widget);
     themeList->addItem(QStringLiteral("Qt"));
     themeList->addItem(QStringLiteral("Primary Colors"));
@@ -372,6 +395,16 @@ int main(int argc, char **argv)
        start->setIconSize(QSize(24, 24));
 
 
+
+
+       QPushButton *stop = new QPushButton(widget);
+      // start->setIcon(QIcon(pm));
+       stop->setText("Stop");
+
+
+       stop->setIconSize(QSize(24, 24));
+
+
  //standardOutput << box->currentText() << endl;
 
 
@@ -420,12 +453,18 @@ int main(int argc, char **argv)
     vLayout->addWidget(themeList);
     vLayout->addWidget(colorGroupBox);
     vLayout->addWidget(Sensitivity);
-    vLayout->addWidget(onetimes);
-    vLayout->addWidget(tentimes);
-    vLayout->addWidget(less);
+    vLayout->addWidget(SensitivitySlider);
+
+    vLayout->addWidget(axisMinSliderY);
+    vLayout->addWidget(axisMaxSliderY);
+
+   // vLayout->addWidget(onetimes);
+ //   vLayout->addWidget(tentimes);
+  //  vLayout->addWidget(less);
     vLayout->addWidget(com);
     vLayout->addWidget(box);
     vLayout->addWidget(start);
+    vLayout->addWidget(stop);
 
 
     widget->show();
@@ -460,6 +499,9 @@ int main(int argc, char **argv)
     QObject::connect(start, &QPushButton::pressed,                    //currentTextChanged(QString)),
                      modifier, &SurfaceGraph::begin);
 
+
+    QObject::connect(stop, &QPushButton::pressed,                    //currentTextChanged(QString)),
+                     modifier, &SurfaceGraph::stop);
 //    QObject::connect(box, SIGNAL(currentText(QString)),
 //                     modifier, SLOT(begin(QString)));
 
@@ -486,6 +528,13 @@ int main(int argc, char **argv)
                      modifier, &SurfaceGraph::adjustZMin);
     QObject::connect(axisMaxSliderZ, &QSlider::valueChanged,
                      modifier, &SurfaceGraph::adjustZMax);
+
+
+    QObject::connect(axisMinSliderY, &QSlider::valueChanged,
+                     modifier, &SurfaceGraph::adjustYMin);
+    QObject::connect(axisMaxSliderY, &QSlider::valueChanged,
+                     modifier, &SurfaceGraph::adjustYMax);
+
     QObject::connect(themeList, SIGNAL(currentIndexChanged(int)),
                      modifier, SLOT(changeTheme(int)));
     QObject::connect(gradientBtoYPB, &QPushButton::pressed,
@@ -493,11 +542,19 @@ int main(int argc, char **argv)
     QObject::connect(gradientGtoRPB, &QPushButton::pressed,
                      modifier, &SurfaceGraph::setGreenToRedGradient);
 
+//    QObject::connect(SensitivitySlider, &QSlider::valueChanged,
+//                     modifier, &SurfaceGraph::adjustSensitivity);
+
+
+
+    modifier->setAxisMinSliderY(axisMinSliderY);
+    modifier->setAxisMaxSliderY(axisMaxSliderY);
 
     modifier->setAxisMinSliderX(axisMinSliderX);
     modifier->setAxisMaxSliderX(axisMaxSliderX);
     modifier->setAxisMinSliderZ(axisMinSliderZ);
     modifier->setAxisMaxSliderZ(axisMaxSliderZ);
+    modifier->setSense(SensitivitySlider);
 
     sqrtSinModelRB->setChecked(true);
     modeItemRB->setChecked(true);
