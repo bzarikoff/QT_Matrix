@@ -457,16 +457,61 @@ void SurfaceGraph::fillSqrtSinProxy()
 
 
 
-                                      //Force is three digits
-                                         if(point[p+2] != ',' && point[p] != ',' && point[p+1] != ',' && point[p+2] != NULL && point[p+1] != NULL){
+
+                                      //Force is four digits
+                                         if(point[p+3] != ',' && point[p+3] != NULL && point[p+2] != ',' && point[p] != ',' && point[p+1] != ',' && point[p+2] != NULL && point[p+1] != NULL){
                                             if(k<24){
                                             //integertest[j][k] = (point[p]*10 + point[p+1]) - '0';
                                           std::stringstream strValue;
+                                          std::stringstream strValuehundred;
+                                          std::stringstream strValuethousand;
+                                          int hundred;
+                                          int thousand;
+                                          strValue << point[p];
+                                          strValue >> integertest[j][k];
+                                          strValuehundred << point[p+1];
+                                          strValuehundred >> hundred;
+                                          strValuethousand << point[p+2];
+                                          strValuethousand >> thousand;
+                                          integertest[j][k] = integertest[j][k]*1000 + hundred*100+ thousand*10 + (point[p+2] - '0');
+                                        //   standardOutput << integertest[j][k] << endl;
+                                          float x = k;
+                                          if(integertest[j][k] == 1){ //clipping filter - 1 is not a useful value
+                                              integertest[j][k] = 0;
+                                          }
+                                          float y = integertest[j][k] * sensitivity;
+                                   //       standardOutput << integertest[j][k] << endl;
+      //                                        if(j==0 && k == 0){
+      //                                            y = 50;
+      //                                        }
+      //                                        if(j==15 && k == 23){
+      //                                            y = 52;
+      //                                        }
+                                          (*newRow)[index++].setPosition(QVector3D(x, y, z));
+                                           k++;
+                                            }
+                                    //   k++;
+                                       p=p+4;
+                                        }//if element is greater than 999 will occupy four indexes of char array - must store both these elements in
+                                         //one index of the integer array
+
+
+
+
+
+
+
+                                      //Force is three digits
+                                         else if(point[p+2] != ',' && point[p] != ',' && point[p+1] != ',' && point[p+2] != NULL && point[p+1] != NULL){
+                                            if(k<24){
+                                            //integertest[j][k] = (point[p]*10 + point[p+1]) - '0';
+                                          std::stringstream strValue;
+                                          std::stringstream strValuehundred;
                                           int hundred;
                                           strValue << point[p];
                                           strValue >> integertest[j][k];
-                                          strValue << point[p+1];
-                                          strValue >> hundred;
+                                          strValuehundred << point[p+1];
+                                          strValuehundred >> hundred;
                                           integertest[j][k] = integertest[j][k]*100 + hundred*10+(point[p+2] - '0');
                                         //   standardOutput << integertest[j][k] << endl;
                                           float x = k;
@@ -474,7 +519,9 @@ void SurfaceGraph::fillSqrtSinProxy()
                                               integertest[j][k] = 0;
                                           }
                                           float y = integertest[j][k] * sensitivity;
-                                   //       standardOutput << integertest[j][k] << endl;
+                                         standardOutput << integertest[j][k] << endl;
+                                         standardOutput << "space" << endl;
+                                         standardOutput << hundred << endl;
       //                                        if(j==0 && k == 0){
       //                                            y = 50;
       //                                        }
