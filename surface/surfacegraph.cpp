@@ -55,6 +55,7 @@ const float sampleMin = 0.0f;//-24.0f;//-8.0f;
 const float sampleMax = 24.0f;//8.0f;
 
 float sensitivity = 1;
+int on = 0;
 
 SurfaceGraph::SurfaceGraph(Q3DSurface *surface)
     : m_graph(surface)
@@ -110,43 +111,43 @@ void SurfaceGraph::timerEvent(QTimerEvent *event)
     }
 }
 
-void SurfaceGraph::smaller(bool enable)
-{
-    if (enable) {
+//void SurfaceGraph::smaller(bool enable)
+//{
+//    if (enable) {
 
-       // sensitivity = 0.1;
-
-
-    }
+//       // sensitivity = 0.1;
 
 
-
-}
-void SurfaceGraph::same(bool enable)
-{
-    if (enable) {
-
-      //  sensitivity = 1;
+//    }
 
 
 
-    }
+//}
+//void SurfaceGraph::same(bool enable)
+//{
+//    if (enable) {
+
+//      //  sensitivity = 1;
 
 
 
-}
-void SurfaceGraph::bigger(bool enable)
-{
-    if (enable) {
-
-      //  sensitivity = 10;
-
-
-    }
+//    }
 
 
 
-}
+//}
+//void SurfaceGraph::bigger(bool enable)
+//{
+//    if (enable) {
+
+//      //  sensitivity = 10;
+
+
+//    }
+
+
+
+//}
 void SurfaceGraph::begin()
 {
     QTextStream standardOutput(stdout);
@@ -157,10 +158,11 @@ void SurfaceGraph::begin()
     int count = 0;
 
 
+
   //  QSerialPortInfo objectconst;
 
     //portname = objectconst.portName();
-
+if(on == 0){
     Q_FOREACH(QSerialPortInfo objectconst, QSerialPortInfo::availablePorts()) {
 
         if(count == 0){
@@ -173,8 +175,8 @@ void SurfaceGraph::begin()
              standardOutput << portname << endl;
         }
 
-    }
 
+}
 
 //    Q_FOREACH(QSerialPortInfo port, QSerialPortInfo::availablePorts()) {
 //        box->addItem(port.portName());
@@ -188,12 +190,15 @@ void SurfaceGraph::begin()
 
     test(port1);
 }
+on = 1;
+}
 
 void SurfaceGraph::stop()
 {
     QTextStream standardOutput(stdout);
     standardOutput << "test" << endl;
 
+    on = 0;
     killTimer(timerId);
            // startTimer(100);
     //    timerId = startTimer(100);
@@ -395,7 +400,7 @@ void SurfaceGraph::fillSqrtSinProxy()
 
 
 
-
+on = 1;
     serial.write("!rm\r\n");
   //  standardOutput << "!RM\r\n" << endl;
 
@@ -492,7 +497,7 @@ void SurfaceGraph::fillSqrtSinProxy()
                                           if(integertest[j][k] == 1){ //clipping filter - 1 is not a useful value
                                               integertest[j][k] = 0;
                                           }
-                                          float y = integertest[j][k] * sensitivity;
+                                          float y = integertest[j][k];// * sensitivity;
                                    //       standardOutput << integertest[j][k] << endl;
       //                                        if(j==0 && k == 0){
       //                                            y = 50;
@@ -531,7 +536,7 @@ void SurfaceGraph::fillSqrtSinProxy()
                                           if(integertest[j][k] == 1){
                                               integertest[j][k] = 0;
                                           }
-                                          float y = integertest[j][k] * sensitivity;
+                                          float y = integertest[j][k];// * sensitivity;
                                       //   standardOutput << integertest[j][k] << endl;
                                      //    standardOutput << "space" << endl;
                                       //   standardOutput << hundred << endl;
@@ -572,7 +577,7 @@ void SurfaceGraph::fillSqrtSinProxy()
                                     if(integertest[j][k] == 1){
                                         integertest[j][k] = 0;
                                     }
-                                    float y = integertest[j][k] * sensitivity;
+                                    float y = integertest[j][k];// * sensitivity;
                              //       standardOutput << integertest[j][k] << endl;
 //                                        if(j==0 && k == 0){
 //                                            y = 50;
@@ -603,7 +608,7 @@ void SurfaceGraph::fillSqrtSinProxy()
                                                   if(integertest[j][k] == 1){
                                                       integertest[j][k] = 0;
                                                   }
-                                                  float y =  integertest[j][k] * sensitivity;
+                                                  float y =  integertest[j][k];// * sensitivity;
                                          //         standardOutput << integertest[j][k] << endl;
 
 //                                                  if(k==23 || k ==0){
@@ -740,9 +745,9 @@ void SurfaceGraph::enableSqrtSinModel(bool enable)
 
 
 
-        m_sense->setMaximum(10);
-        m_sense->setMinimum(0);
-        m_sense->setValue(5);
+//        m_sense->setMaximum(10);
+//        m_sense->setMinimum(0);
+//        m_sense->setValue(5);
         //! [8]
 
 //        QTimer*timer = new QTimer(this);
@@ -793,9 +798,9 @@ void SurfaceGraph::enableHeightMapModel(bool enable)
         m_axisMinSliderZ->setValue(0);
         m_axisMaxSliderZ->setMaximum(mapGridCountZ - 1);
         m_axisMaxSliderZ->setValue(mapGridCountZ - 1);
-        m_sense->setMaximum(10);
-        m_sense->setMinimum(0);
-        m_sense->setValue(5);
+//        m_sense->setMaximum(10);
+//        m_sense->setMinimum(0);
+//        m_sense->setValue(5);
 
 
 
