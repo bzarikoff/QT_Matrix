@@ -330,10 +330,10 @@ int main(int argc, char **argv)
 
 
 
-    QSlider *SensitivitySlider = new QSlider(Qt::Horizontal, widget);
-    SensitivitySlider->setMinimum(0);
-    SensitivitySlider->setTickInterval(1);
-    SensitivitySlider->setEnabled(true);
+//    QSlider *SensitivitySlider = new QSlider(Qt::Horizontal, widget);
+//    SensitivitySlider->setMinimum(0);
+//    SensitivitySlider->setTickInterval(1);
+//    SensitivitySlider->setEnabled(true);
 
 
 
@@ -353,24 +353,24 @@ int main(int argc, char **argv)
 
         QGroupBox *Sensitivity = new QGroupBox(QStringLiteral("Sensitivity"));
 
-        QRadioButton *onetimes = new QRadioButton(widget);
-        onetimes->setText(QStringLiteral("1"));
-        onetimes->setChecked(true);
-      // Sensitivity->setLayout(onetimes)
+//        QRadioButton *onetimes = new QRadioButton(widget);
+//        onetimes->setText(QStringLiteral("1"));
+//        onetimes->setChecked(true);
+//      // Sensitivity->setLayout(onetimes)
 
-        QRadioButton *tentimes = new QRadioButton(widget);
-        tentimes->setText(QStringLiteral("10"));
-        tentimes->setChecked(false);
+//        QRadioButton *tentimes = new QRadioButton(widget);
+//        tentimes->setText(QStringLiteral("10"));
+//        tentimes->setChecked(false);
 
-        QRadioButton *less = new QRadioButton(widget);
-        less->setText(QStringLiteral("0.1"));
-        less->setChecked(false);
+//        QRadioButton *less = new QRadioButton(widget);
+//        less->setText(QStringLiteral("0.1"));
+//        less->setChecked(false);
 
-        QVBoxLayout *sensitivityVBox = new QVBoxLayout;
-        sensitivityVBox->addWidget(onetimes);
-        sensitivityVBox->addWidget(tentimes);
-        sensitivityVBox->addWidget(less);
-        selectionGroupBox->setLayout(sensitivityVBox);
+//        QVBoxLayout *sensitivityVBox = new QVBoxLayout;
+//        sensitivityVBox->addWidget(onetimes);
+//        sensitivityVBox->addWidget(tentimes);
+//        sensitivityVBox->addWidget(less);
+//        selectionGroupBox->setLayout(sensitivityVBox);
 
 
     QGroupBox *com = new QGroupBox(QStringLiteral("Port"));
@@ -453,7 +453,7 @@ int main(int argc, char **argv)
     vLayout->addWidget(themeList);
     vLayout->addWidget(colorGroupBox);
     vLayout->addWidget(Sensitivity);
-    vLayout->addWidget(SensitivitySlider);
+   // vLayout->addWidget(SensitivitySlider);
 
     vLayout->addWidget(axisMinSliderY);
     vLayout->addWidget(axisMaxSliderY);
@@ -479,12 +479,12 @@ int main(int argc, char **argv)
                      modifier, &SurfaceGraph::enableSqrtSinModel);
 
 
-    QObject::connect(less, &QRadioButton::toggled,
-                     modifier, &SurfaceGraph::smaller);
-    QObject::connect(onetimes, &QRadioButton::toggled,
-                     modifier, &SurfaceGraph::same);
-    QObject::connect(tentimes, &QRadioButton::toggled,
-                     modifier, &SurfaceGraph::bigger);
+//    QObject::connect(less, &QRadioButton::toggled,
+//                     modifier, &SurfaceGraph::smaller);
+//    QObject::connect(onetimes, &QRadioButton::toggled,
+//                     modifier, &SurfaceGraph::same);
+//    QObject::connect(tentimes, &QRadioButton::toggled,
+//                     modifier, &SurfaceGraph::bigger);
 
 
 //    QObject::connect(box, &QComboBox::currentData,
@@ -502,13 +502,7 @@ int main(int argc, char **argv)
 
     QObject::connect(stop, &QPushButton::pressed,                    //currentTextChanged(QString)),
                      modifier, &SurfaceGraph::stop);
-//    QObject::connect(box, SIGNAL(currentText(QString)),
-//                     modifier, SLOT(begin(QString)));
 
-
-
-   // QObject::connect(, ,
-    //                 modifier, &SurfaceGraph::enableSqrtSinModel);
 
 
 
@@ -554,7 +548,7 @@ int main(int argc, char **argv)
     modifier->setAxisMaxSliderX(axisMaxSliderX);
     modifier->setAxisMinSliderZ(axisMinSliderZ);
     modifier->setAxisMaxSliderZ(axisMaxSliderZ);
-    modifier->setSense(SensitivitySlider);
+    //modifier->setSense(SensitivitySlider);
 
     sqrtSinModelRB->setChecked(true);
     modeItemRB->setChecked(true);
