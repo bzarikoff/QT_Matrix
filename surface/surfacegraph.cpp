@@ -47,8 +47,10 @@ QSerialPort serial;
 
 const int sampleCountX = 24;//50;
 const int sampleCountZ = 16;//50;
+const int sampleCountY = 1000;
 const int heightMapGridStepX = 1;
 const int heightMapGridStepZ = 1;
+const int heightMapGridStepY = 1;
 const float sampleMin = 0.0f;//-24.0f;//-8.0f;
 const float sampleMax = 24.0f;//8.0f;
 
@@ -112,7 +114,7 @@ void SurfaceGraph::smaller(bool enable)
 {
     if (enable) {
 
-        sensitivity = 0.1;
+       // sensitivity = 0.1;
 
 
     }
@@ -124,7 +126,7 @@ void SurfaceGraph::same(bool enable)
 {
     if (enable) {
 
-        sensitivity = 1;
+      //  sensitivity = 1;
 
 
 
@@ -137,7 +139,7 @@ void SurfaceGraph::bigger(bool enable)
 {
     if (enable) {
 
-        sensitivity = 10;
+      //  sensitivity = 10;
 
 
     }
@@ -187,6 +189,18 @@ void SurfaceGraph::begin()
     test(port1);
 }
 
+void SurfaceGraph::stop()
+{
+    QTextStream standardOutput(stdout);
+    standardOutput << "test" << endl;
+
+    killTimer(timerId);
+           // startTimer(100);
+    //    timerId = startTimer(100);
+
+
+
+}
 
 
 void SurfaceGraph::test(QString box)
@@ -239,14 +253,11 @@ void SurfaceGraph::test(QString box)
        serial.waitForReadyRead();
 
 
-   data = serial.readLine();
-while(data.isNull() == TRUE){
-   data = serial.readLine();
-}
-//if(data[0] == 'N'){
-//     standardOutput << "N is present" << endl;
+//   data = serial.readLine();
+//while(data.isNull() == TRUE){
+//   data = serial.readLine();
 //}
-standardOutput << data << endl;
+//standardOutput << data << endl;
 
 
        //Set Columns Number
@@ -344,8 +355,10 @@ standardOutput << data << endl;
         if(flag == 1){
             timerId = startTimer(100);
 
-        }
 
+
+
+        }
 
 }
 
@@ -681,7 +694,7 @@ void SurfaceGraph::enableSqrtSinModel(bool enable)
         m_graph->axisX()->setLabelFormat("%.2f");
         m_graph->axisZ()->setLabelFormat("%.2f");
         m_graph->axisX()->setRange(sampleMin, sampleMax);
-        m_graph->axisY()->setRange(0.0f, 50.0f);//2.0f
+        m_graph->axisY()->setRange(0.0f, 500.0f);//2.0f//50
         m_graph->axisZ()->setRange(sampleMin, sampleMax);
         m_graph->axisX()->setLabelAutoRotation(30);
         m_graph->axisY()->setLabelAutoRotation(90);
@@ -705,6 +718,31 @@ void SurfaceGraph::enableSqrtSinModel(bool enable)
         m_axisMinSliderZ->setValue(0);
         m_axisMaxSliderZ->setMaximum(sampleCountZ - 1);
         m_axisMaxSliderZ->setValue(sampleCountZ - 1);
+
+
+
+
+
+
+        m_rangeMinY = 0.0f;
+        m_stepY = (1000.0f) / float(sampleCountY - 1);
+        m_axisMinSliderY->setMaximum(sampleCountY - 2);
+        m_axisMinSliderY->setValue(0);
+        m_axisMaxSliderY->setMaximum(sampleCountY - 1);
+        m_axisMaxSliderY->setValue(sampleCountY - 1);
+
+//        m_stepY = (25.0f);
+//        m_axisMinSliderY->setMaximum(22);
+//        m_axisMinSliderY->setValue(0);
+//       m_axisMaxSliderY->setMaximum(23);
+//       m_axisMaxSliderY->setValue(23);
+
+
+
+
+        m_sense->setMaximum(10);
+        m_sense->setMinimum(0);
+        m_sense->setValue(5);
         //! [8]
 
 //        QTimer*timer = new QTimer(this);
@@ -755,6 +793,20 @@ void SurfaceGraph::enableHeightMapModel(bool enable)
         m_axisMinSliderZ->setValue(0);
         m_axisMaxSliderZ->setMaximum(mapGridCountZ - 1);
         m_axisMaxSliderZ->setValue(mapGridCountZ - 1);
+        m_sense->setMaximum(10);
+        m_sense->setMinimum(0);
+        m_sense->setValue(5);
+
+
+
+        m_rangeMinY = 0.0f;
+        m_stepY = (1000.0f) / float(sampleCountY - 1);
+        m_axisMinSliderY->setMaximum(sampleCountY - 2);
+        m_axisMinSliderY->setValue(0);
+        m_axisMaxSliderY->setMaximum(sampleCountY - 1);
+        m_axisMaxSliderY->setValue(sampleCountY - 1);
+
+
     }
 }
 
@@ -814,6 +866,64 @@ void SurfaceGraph::adjustZMax(int max)
     setAxisZRange(minX, maxX);
 }
 
+
+
+
+void SurfaceGraph::adjustYMin(int min)
+{
+    float minY = m_stepY * float(min) + m_rangeMinY;
+
+    int max = m_axisMaxSliderY->value();
+    if (min >= max) {
+        max = min + 1;
+        m_axisMaxSliderY->setValue(max);
+    }
+    float maxY = m_stepY * max + m_rangeMinY;
+
+    setAxisYRange(minY, maxY);
+}
+
+void SurfaceGraph::adjustYMax(int max)
+{
+    float maxY = m_stepY * float(max) + m_rangeMinY;
+
+    int min = m_axisMinSliderY->value();
+    if (max <= min) {
+        min = max - 1;
+        m_axisMinSliderY->setValue(min);
+    }
+    float minY = m_stepY * min + m_rangeMinY;
+
+    setAxisYRange(minY, maxY);
+}
+
+
+
+
+
+
+//void SurfaceGraph::adjustSensitivity(int value)
+//{
+
+
+//    m_sense->setValue(value);
+//    QTextStream standardOutput(stdout);
+//    standardOutput << value << endl;
+
+
+//    float test;
+//    test = 0.09765625;//100/156=0.641;, 0.09765625 = 100/1024 for new hardware
+
+
+//     test = test*value;
+
+
+
+//     sensitivity = test;
+
+
+//}
+
 //! [5]
 void SurfaceGraph::setAxisXRange(float min, float max)
 {
@@ -823,6 +933,11 @@ void SurfaceGraph::setAxisXRange(float min, float max)
 void SurfaceGraph::setAxisZRange(float min, float max)
 {
     m_graph->axisZ()->setRange(min, max);
+}
+
+void SurfaceGraph::setAxisYRange(float min, float max)
+{
+    m_graph->axisY()->setRange(min, max);
 }
 //! [5]
 
