@@ -519,9 +519,9 @@ void SurfaceGraph::fillSqrtSinProxy()
                                               integertest[j][k] = 0;
                                           }
                                           float y = integertest[j][k] * sensitivity;
-                                         standardOutput << integertest[j][k] << endl;
-                                         standardOutput << "space" << endl;
-                                         standardOutput << hundred << endl;
+                                      //   standardOutput << integertest[j][k] << endl;
+                                     //    standardOutput << "space" << endl;
+                                      //   standardOutput << hundred << endl;
       //                                        if(j==0 && k == 0){
       //                                            y = 50;
       //                                        }
