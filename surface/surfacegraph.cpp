@@ -253,9 +253,9 @@ void SurfaceGraph::test(QString box)
 
 
        //Setup Command
-       serial.write("!sm\r\n");
-       standardOutput << "!SM\r\n" << endl;
-       serial.waitForReadyRead();
+//       serial.write("!sm\r\n");
+//       standardOutput << "!SM\r\n" << endl;
+//       serial.waitForReadyRead();
 
 
 //   data = serial.readLine();
