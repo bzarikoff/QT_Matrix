@@ -219,6 +219,11 @@ int main(int argc, char **argv)
 //              END OF SETUP
 // //////////////////////////////////////////////////////////////////////////////////////////
 
+        
+        //defines the UI main window which the graph is contained in
+        //specifies the buttons and their functions
+        
+        
         QApplication app(argc, argv);
 
 
