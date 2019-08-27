@@ -57,6 +57,8 @@ const float sampleMax = 24.0f;//8.0f;
 float sensitivity = 1;
 int on = 0;
 
+
+//run on startup - initializes the surface graph
 SurfaceGraph::SurfaceGraph(Q3DSurface *surface)
     : m_graph(surface)
 {
@@ -103,6 +105,8 @@ SurfaceGraph::~SurfaceGraph()
     delete m_graph;
 }
 
+//called everytime that timer goes to 0 - this function call fillSqrtProxy which updates the graph
+//with new data
 void SurfaceGraph::timerEvent(QTimerEvent *event)
 {
     //qDebug() << "Update  1";
@@ -148,6 +152,8 @@ void SurfaceGraph::timerEvent(QTimerEvent *event)
 
 
 //}
+
+//called if start button is pressed
 void SurfaceGraph::begin()
 {
     QTextStream standardOutput(stdout);
@@ -193,6 +199,7 @@ if(on == 0){
 on = 1;
 }
 
+//called if stop button is pressed
 void SurfaceGraph::stop()
 {
     QTextStream standardOutput(stdout);
@@ -207,7 +214,7 @@ void SurfaceGraph::stop()
 
 }
 
-
+//called if the COM port is changed - this will also start the graphing
 void SurfaceGraph::test(QString box)
 {
 
@@ -376,7 +383,8 @@ void SurfaceGraph::test(QString box)
         timer->start(100);
 }  */    //added this to header and main to attempt to call fillsqrt every 100 ms
 
-
+//updates the graph with new serial data - this includes prompted for new data
+//by sending !rm over the serial port
 void SurfaceGraph::fillSqrtSinProxy()
 {
     float stepX = (sampleMax - sampleMin) / float(sampleCountX - 1);
@@ -689,6 +697,7 @@ on = 1;
 }
 //! [1]
 
+//function is called once when SqrtSinModel is selected - for this code only this mode is relevant
 void SurfaceGraph::enableSqrtSinModel(bool enable)
 {
     if (enable) {
